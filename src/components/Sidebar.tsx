@@ -1,26 +1,18 @@
 
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  Utensils, 
-  ShoppingCart, 
-  BarChart3,
-  Search
-} from 'lucide-react';
+import { Search, Triangle } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
   
   const menuItems = [
-    { label: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { label: 'Food Item', path: '/food-items', icon: Utensils },
-    { label: 'Diet Package Management', path: '/diet-plans', icon: FileText },
-    { label: 'Diet Order Management', path: '/orders', icon: ShoppingCart },
-    // { label: 'Patients', path: '/patients', icon: Users },
-    // { label: 'Reports', path: '/reports', icon: BarChart3 },
+    { label: 'Dashboard', path: '/' },
+    { label: 'Food Item', path: '/food-items' },
+    { label: 'Diet Package Management', path: '/diet-plans' },
+    { label: 'Diet Order Management', path: '/orders' },
+    // { label: 'Patients', path: '/patients' },
+    // { label: 'Reports', path: '/reports' },
   ];
 
   return (
@@ -56,17 +48,24 @@ const Sidebar = () => {
             <li key={index}>
               <Link
                 to={item.path}
-                className={`flex items-center justify-between px-4 py-3 text-sm transition-colors hover:bg-slate-800 ${
+                className={`group flex items-center justify-between px-4 py-3 text-sm transition-all duration-200 ${
                   location.pathname === item.path
-                    ? 'bg-slate-800 text-white border-r-2 border-blue-500'
-                    : 'text-slate-300'
+                    ? 'bg-blue-900/30 text-blue-400 border-r-2 border-blue-500'
+                    : 'text-slate-300 hover:bg-slate-800/50 hover:text-white'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  <Triangle 
+                    className={`w-2.5 h-2.5 transition-transform duration-200 ${
+                      location.pathname === item.path 
+                        ? 'text-blue-400 scale-110' 
+                        : 'text-slate-500 group-hover:text-blue-400 group-hover:scale-110'
+                    } fill-current -rotate-90`} 
+                  />
+                  <span className="group-hover:translate-x-1 transition-transform duration-200">
+                    {item.label}
+                  </span>
                 </div>
-                <span className="text-slate-500">▶</span>
               </Link>
             </li>
           ))}

@@ -249,7 +249,7 @@ const FoodItems = () => {
                 </select>
               </div> */}
               <div>
-                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Type Filter</Label>
+                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Food Type</Label>
                 <select 
                   id="filter" 
                   value={typeFilter}

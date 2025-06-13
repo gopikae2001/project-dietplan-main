@@ -60,9 +60,9 @@ const DietPlans = () => {
     packageName: '',
     dietType: 'Regular',
     rate: '',
-    breakfastMorning: '',
-    breakfastAfternoon: '',
+    breakfast: '',
     lunch: '',
+    evening: '',
     dinner: ''
   });
 
@@ -101,8 +101,8 @@ const DietPlans = () => {
               dietType: formData.dietType,
               rate: Number(formData.rate),
               breakfast: {
-                morning: formData.breakfastMorning,
-                afternoon: formData.breakfastAfternoon
+                morning: formData.breakfast,
+                afternoon: formData.evening
               },
               lunch: formData.lunch,
               dinner: formData.dinner,
@@ -119,8 +119,8 @@ const DietPlans = () => {
         dietType: formData.dietType,
         rate: Number(formData.rate),
         breakfast: {
-          morning: formData.breakfastMorning,
-          afternoon: formData.breakfastAfternoon
+          morning: formData.breakfast,
+          afternoon: formData.evening
         },
         lunch: formData.lunch,
         dinner: formData.dinner,
@@ -139,9 +139,9 @@ const DietPlans = () => {
       packageName: '',
       dietType: 'Regular',
       rate: '',
-      breakfastMorning: '',
-      breakfastAfternoon: '',
+      breakfast: '',
       lunch: '',
+      evening: '',
       dinner: ''
     });
     setShowModal(false);
@@ -153,9 +153,9 @@ const DietPlans = () => {
       packageName: plan.packageName,
       dietType: plan.dietType,
       rate: plan.rate.toString(),
-      breakfastMorning: plan.breakfast.morning,
-      breakfastAfternoon: plan.breakfast.afternoon,
+      breakfast: plan.breakfast.morning,
       lunch: plan.lunch,
+      evening: plan.breakfast.afternoon,
       dinner: plan.dinner
     });
     setEditingPlan(plan);
@@ -174,9 +174,9 @@ const DietPlans = () => {
 
   const handleExcel = () => {
     const csvContent = "data:text/csv;charset=utf-8," 
-      + "Package Name,Diet Type,Breakfast Morning,Breakfast Afternoon,Lunch,Dinner,Total Rate\n"
+      + "Package Name,Diet Type,Breakfast,Lunch,Evening,Dinner,Total Rate\n"
       + filteredPlans.map(plan => 
-          `${plan.packageName},${plan.dietType},"${plan.breakfast.morning}","${plan.breakfast.afternoon}","${plan.lunch}","${plan.dinner}",${plan.totalRate}`
+          `${plan.packageName},${plan.dietType},"${plan.breakfast.morning}","${plan.lunch}","${plan.breakfast.afternoon}","${plan.dinner}",${plan.totalRate}`
         ).join("\n");
     
     const encodedUri = encodeURI(csvContent);
@@ -234,7 +234,7 @@ const DietPlans = () => {
                 </select>
               </div> */}
               <div>
-                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Corporate Filter</Label>
+                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Diet Type</Label>
                 <select 
                   id="filter" 
                   value={typeFilter}
@@ -286,9 +286,9 @@ const DietPlans = () => {
                   <TableHead>Sl</TableHead>
                   <TableHead>Package Name</TableHead>
                   <TableHead>Diet Type</TableHead>
-                  <TableHead>Breakfast (Morning)</TableHead>
-                  <TableHead>Breakfast (Afternoon)</TableHead>
+                  <TableHead>Breakfast</TableHead>
                   <TableHead>Lunch</TableHead>
+                  <TableHead>Evening</TableHead>
                   <TableHead>Dinner</TableHead>
                   <TableHead>Total Rate (₹)</TableHead>
                   <TableHead>Actions</TableHead>
@@ -309,8 +309,8 @@ const DietPlans = () => {
                       </span>
                     </TableCell>
                     <TableCell className="text-sm">{plan.breakfast.morning}</TableCell>
-                    <TableCell className="text-sm">{plan.breakfast.afternoon}</TableCell>
                     <TableCell className="text-sm">{plan.lunch}</TableCell>
+                    <TableCell className="text-sm">{plan.breakfast.afternoon}</TableCell>
                     <TableCell className="text-sm">{plan.dinner}</TableCell>
                     <TableCell className="font-semibold">₹{plan.totalRate}</TableCell>
                     <TableCell>
@@ -373,26 +373,27 @@ const DietPlans = () => {
                   </div>
                 </div>
                 
-                <div className="border rounded-lg p-4 bg-blue-50">
-                  <h3 className="text-lg font-semibold mb-4 text-blue-900">Breakfast</h3>
+                <div className="border rounded-lg p-4 bg-gray-50">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="breakfastMorning">Morning Items & Quantity</Label>
+                      <Label htmlFor="breakfast" className="text-gray-700">Breakfast Items & Quantity</Label>
                       <Input
-                        id="breakfastMorning"
-                        value={formData.breakfastMorning}
-                        onChange={(e) => setFormData({...formData, breakfastMorning: e.target.value})}
+                        id="breakfast"
+                        value={formData.breakfast}
+                        onChange={(e) => setFormData({...formData, breakfast: e.target.value})}
                         placeholder="e.g., Oats - 100g, Milk - 200ml"
+                        className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         required
                       />
                     </div>
                     <div>
-                      <Label htmlFor="breakfastAfternoon">Afternoon Items & Quantity</Label>
+                      <Label htmlFor="evening" className="text-gray-700">Evening Items & Quantity</Label>
                       <Input
-                        id="breakfastAfternoon"
-                        value={formData.breakfastAfternoon}
-                        onChange={(e) => setFormData({...formData, breakfastAfternoon: e.target.value})}
+                        id="evening"
+                        value={formData.evening}
+                        onChange={(e) => setFormData({...formData, evening: e.target.value})}
                         placeholder="e.g., Apple - 1 piece, Tea - 1 cup"
+                        className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         required
                       />
                     </div>
@@ -401,30 +402,62 @@ const DietPlans = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="lunch">Lunch Items & Quantity</Label>
+                    <Label htmlFor="lunch" className="text-gray-700">Lunch Items & Quantity</Label>
                     <Input
                       id="lunch"
                       value={formData.lunch}
                       onChange={(e) => setFormData({...formData, lunch: e.target.value})}
                       placeholder="e.g., Rice - 200g, Dal - 100g, Vegetables - 150g"
+                      className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
                   <div>
-                    <Label htmlFor="dinner">Dinner Items & Quantity</Label>
+                    <Label htmlFor="dinner" className="text-gray-700">Dinner Items & Quantity</Label>
                     <Input
                       id="dinner"
                       value={formData.dinner}
                       onChange={(e) => setFormData({...formData, dinner: e.target.value})}
                       placeholder="e.g., Roti - 2 pieces, Curry - 100g"
+                      className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
                 </div>
                 
-                <div className="flex justify-end space-x-3">
-                  <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>
-                  <Button type="submit" className="text-white" style={{ backgroundColor: '#37a9be' }}>
+                {/* Days Available */}
+                <div className="border rounded-lg p-4 bg-gray-50">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800">Days Available</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2">
+                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                      <div key={day} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={`day-${day}`}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        />
+                        <label htmlFor={`day-${day}`} className="ml-2 block text-sm text-gray-700">
+                          {day}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={resetForm}
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    type="submit" 
+                    className="text-white hover:bg-blue-600 transition-colors" 
+                    style={{ backgroundColor: '#37a9be' }}
+                  >
                     {editingPlan ? 'Update Diet Package' : 'Add Diet Package'}
                   </Button>
                 </div>

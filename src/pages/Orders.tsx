@@ -362,7 +362,7 @@ const Orders = () => {
                 </select>
               </div> */}
               <div>
-                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Status Filter</Label>
+                <Label htmlFor="filter" className="text-sm font-medium text-gray-700">Status</Label>
                 <select 
                   id="filter" 
                   value={statusFilter}
